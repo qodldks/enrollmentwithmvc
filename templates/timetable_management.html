@@ -1,0 +1,49 @@
+<!-- templates/student_management.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+		<script type="text/javascript" language="javascript">
+			$(document).ready(function(){
+				$.ajax({
+					type : "GET",
+					url : "/api/enrollment_list",
+					dataType : 'text',
+					error : function(){
+						alert('통신실패!!');
+					},
+					success : function(data){
+						$("#dataArea").html(data);
+					}
+				});
+			});
+		</script>
+</head>
+<body>
+    <div class="container mt-5">
+        <a href="/">< back</a>
+        <h1>Timetable Management</h1>
+        <hr>
+        <h2>Search timetable</h2>
+        <form method="POST" action="/register_student">
+            <div class="form-group">
+                <label for="gender">student or professor:</label>
+                <select class="form-control" id="gender" name="gender">
+									{% for user in users %}
+										<option value="{{ user.id }}">{{ user.name }}</option>
+									{% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <hr>
+        <h2>Timetable</h2>
+				<p id="dataArea"></p>
+    </div>
+</body>
+</html>

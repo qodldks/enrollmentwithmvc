@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, Blueprint
+from flask import jsonify, render_template, request, redirect, url_for, Blueprint
 from service.enrollment_service import EnrollmentService
 from service.course_service import CourseService
 from service.student_service import StudentService
@@ -29,3 +29,8 @@ def cancel_enrollment():
   id = request.form['enrollment_id']
   enrollment_service.cancel(id)
   return redirect(url_for('enrollment.enrollment_management'))
+
+@enrollment_blueprint.route('/api/enrollment_list',methods=['GET','POST'])
+def enrollment_list():
+  enrollments = enrollment_service.get_all()
+  return jsonify(enrollments)
